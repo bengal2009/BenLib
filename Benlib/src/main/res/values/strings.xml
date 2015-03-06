@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">BenLib</string>
+    <string name="CurrentModuleName">BenLib</string>
 </resources>
