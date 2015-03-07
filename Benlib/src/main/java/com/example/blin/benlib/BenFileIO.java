@@ -5,7 +5,7 @@ import android.util.Log;
 /**
  * Created by blin on 2015/3/6.
  */
-    public class FileIO {
+    public class BenFileIO {
 
 private  String TAG="FileIO";
         public void Test() {
