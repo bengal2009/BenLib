@@ -1,0 +1,20 @@
+package com.example.blin.benlib;
+
+import android.util.Log;
+
+/**
+ * Created by blin on 2015/3/6.
+ */
+    public class FileIO {
+
+private  String TAG="FileIO";
+        public void Test() {
+<<<<<<< HEAD
+            Log.i(TAG, "5566");
+
+=======
+            Log.i(TAG, "1234");
+            //1234
+>>>>>>> master
+        }
+    }
