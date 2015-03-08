@@ -32,13 +32,34 @@ public class BenUtil {
         });
         builder.create().show();
     }
-    public void Dialog_Input(Context context){
-        final  Context mcontext;
-        mcontext=context;
-        new AlertDialog.Builder(mcontext).setTitle("请输入").setIcon(
+    public AlertDialog Dialog_Input(Context context){
+        final  Context mcontext=context;
+        final EditText input =new EditText(mcontext);
+
+       /* final AlertDialog alertDialog = new AlertDialog.Builder(activity)
+                .create();
+        alertDialog.setTitle(title);
+        alertDialog.setMessage(msg);
+        alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                alertDialog.dismiss();
+
+                activity.finish();
+
+            }
+        });
+        alertDialog.show();
+
+        return alertDialog;*/
+
+
+        final AlertDialog alertDialog=new AlertDialog.Builder(mcontext).setTitle("请输入").setIcon(
                 android.R.drawable.ic_dialog_info).setView(
-                new EditText(mcontext)).setPositiveButton("确定", null)
-                .setNegativeButton("取消", null).show();
+                input).setPositiveButton("确定", null)
+                .setNegativeButton("取消", null).create();
+
+        alertDialog.show();
+        return alertDialog;
 
     }
 
