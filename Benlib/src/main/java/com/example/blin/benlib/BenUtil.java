@@ -13,6 +13,7 @@ import android.widget.Toast;
  */
 public class BenUtil {
     String TAG = "BenUtil";
+//    Dial Declare
     public void Bendialog1(Context context,String PrmptStr) {
         final  Context mcontext;
         mcontext=context;
