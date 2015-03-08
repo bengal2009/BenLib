@@ -14,14 +14,14 @@ import android.widget.Toast;
 public class BenUtil {
     String TAG = "BenUtil";
     public void Bendialog1(Context context,String PrmptStr) {
-         final  Context mcontext;
+        final  Context mcontext;
         mcontext=context;
         AlertDialog.Builder builder = new AlertDialog.Builder(mcontext);
         builder.setMessage(PrmptStr);
         builder.setTitle("提示");
         builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                Log.i(TAG,"Yes");
+                Log.i(TAG, "Yes");
                 dialog.dismiss();
             }
         });
@@ -31,36 +31,6 @@ public class BenUtil {
             }
         });
         builder.create().show();
-    }
-    public AlertDialog Dialog_Input(Context context){
-        final  Context mcontext=context;
-        final EditText input =new EditText(mcontext);
-
-       /* final AlertDialog alertDialog = new AlertDialog.Builder(activity)
-                .create();
-        alertDialog.setTitle(title);
-        alertDialog.setMessage(msg);
-        alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                alertDialog.dismiss();
-
-                activity.finish();
-
-            }
-        });
-        alertDialog.show();
-
-        return alertDialog;*/
-
-
-        final AlertDialog alertDialog=new AlertDialog.Builder(mcontext).setTitle("请输入").setIcon(
-                android.R.drawable.ic_dialog_info).setView(
-                input).setPositiveButton("确定", null)
-                .setNegativeButton("取消", null).create();
-
-        alertDialog.show();
-        return alertDialog;
-
     }
 
     public void Dialog_3B(Context context){
@@ -94,6 +64,41 @@ public class BenUtil {
         dialog.show();
 
     }
+    public void Dialog_Input(Context context){
+        final  Context mcontext=context;
+/*
+LayoutInflater inflater = getLayoutInflater();
+　　   View layout = inflater.inflate(R.layout.dialog,
+　　     (ViewGroup) findViewById(R.id.dialog));
+　　   new AlertDialog.Builder(this).setTitle("自定义布局").setView(layout)
 
+ */
+        AlertDialog.Builder alert = new AlertDialog.Builder(context);
+        alert.setTitle("Alert Dialog With EditText"); //Set Alert dialog title here
+        alert.setMessage("Enter Your Name Here"); //Message here
+
+        // Set an EditText view to get user input
+        final EditText input = new EditText(context);
+        alert.setView(input);
+
+        alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+
+            public void onClick(DialogInterface dialog, int whichButton) {
+                //You will get as string input data in this variable.
+                // here we convert the input to a string and show in a toast.
+                String srt = input.getEditableText().toString();
+                Toast.makeText(mcontext, srt, Toast.LENGTH_LONG).show();
+            } // End of onClick(DialogInterface dialog, int whichButton)
+        }); //End of alert.setPositiveButton
+        alert.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                // Canceled.
+                dialog.cancel();
+            }
+        }); //End of alert.setNegativeButton
+        AlertDialog alertDialog = alert.create();
+        alertDialog.show();
+
+    }
 
 }
