@@ -10,6 +10,5 @@ import android.util.Log;
 private  String TAG="FileIO";
         public void Test() {
             Log.i(TAG, "1234");
-            Log.i(TAG, "1234");
         }
     }
