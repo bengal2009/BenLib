@@ -24,6 +24,7 @@ import java.net.URL;
 public class BenNetwork {
 
 
+
     public static class AsyncHttpTask extends AsyncTask<String, Void, Integer> {
         private static final String TAG = "Http Connection";
 
