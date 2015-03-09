@@ -1,0 +1,8 @@
+https://github.com/TwistedEquations
+git config core.ignorecase false
+git add -A
+git commit -m "renaming..."
+mv temp.txt File.txt
+git add -A
+git commit --amend -m "Renamed file.txt to File.txt"
+git mergetool
