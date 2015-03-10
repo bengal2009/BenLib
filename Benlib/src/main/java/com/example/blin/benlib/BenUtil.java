@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -13,6 +14,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
+//http://javatechig.com/android/android-dialog-example/
+//http://javatechig.com/android/android-input-dialog-example
 /**
  * Created by Lin on 2015/3/7.
  */
@@ -122,5 +125,13 @@ LayoutInflater inflater = getLayoutInflater();
 
         mTextSwitcher.setInAnimation(mcontext ,android.R.anim.fade_in);
         mTextSwitcher.setOutAnimation(mcontext ,android.R.anim.fade_out);
+    }
+
+
+    //getting unique id for device
+    public String SystetemID(Context mcontext) {
+
+        String id = Settings.Secure.getString(mcontext.getContentResolver(), Settings.Secure.ANDROID_ID);
+        return id;
     }
 }

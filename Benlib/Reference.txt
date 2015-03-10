@@ -8,3 +8,7 @@ git commit --amend -m "Renamed file.txt to File.txt"
 git mergetool
 git reset --soft HEAD^     # use --soft if you want to keep your changes
 git reset --hard HEAD^     # use --hard if you don't care about keeping the changes you made
+
+How to Start an Application at Device Bootup in Android
+http://javatechig.com/android/how-to-start-an-application-at-device-bootup-in-android/
+
