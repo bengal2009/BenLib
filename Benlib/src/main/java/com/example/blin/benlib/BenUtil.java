@@ -5,8 +5,13 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.TextSwitcher;
+import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ViewSwitcher;
 
 /**
  * Created by Lin on 2015/3/7.
@@ -101,5 +106,21 @@ LayoutInflater inflater = getLayoutInflater();
         alertDialog.show();
 
     }
+    public  void BenAnimateText(Context context,TextSwitcher mTextSwitcher)
+    {
+//        final TextSwitcher mTextSwitcher;
+//        http://javatechig.com/android/textswitcher-and-imageswitcher-example-in-android
+        final  Context mcontext=context;
+        mTextSwitcher.setFactory(new ViewSwitcher.ViewFactory() {
+            @Override
+            public View makeView() {
+                TextView textView = new TextView(mcontext);
+                textView.setGravity(Gravity.CENTER);
+                return textView;
+            }
+        });
 
+        mTextSwitcher.setInAnimation(mcontext ,android.R.anim.fade_in);
+        mTextSwitcher.setOutAnimation(mcontext ,android.R.anim.fade_out);
+    }
 }
