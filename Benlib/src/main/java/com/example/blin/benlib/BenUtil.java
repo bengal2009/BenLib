@@ -1,14 +1,17 @@
 package com.example.blin.benlib;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.provider.Settings;
+import android.support.v4.app.NotificationCompat;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -130,58 +133,59 @@ LayoutInflater inflater = getLayoutInflater();
         mTextSwitcher.setInAnimation(mcontext ,android.R.anim.fade_in);
         mTextSwitcher.setOutAnimation(mcontext ,android.R.anim.fade_out);
     }
+    public void ResolutionInfo(Activity Act1)
+    {
+        DisplayMetrics metrics = new DisplayMetrics();
+        Act1.getWindowManager().getDefaultDisplay()
+                .getMetrics(metrics);
+        int width = metrics.widthPixels;
+        int height = metrics.heightPixels;
+        Log.i(TAG,"width:"+Integer.toString(width)+",Height:"+Integer.toString(height));
+
+    }
+
+    public void ShareIntent(Context mcontext) {
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, "This is my text to send.");
+        sendIntent.setType("text/plain");
+        mcontext.startActivity(sendIntent);
+    }
 
     //添加通知到顶部任务栏
-    public void AddNotification(Context mcontext,int ID){
-        //添加通知到顶部任务栏
-        //获得NotificationManager实例
-        String service = mcontext.NOTIFICATION_SERVICE;
-        NotificationManager nm = (NotificationManager) mcontext.getSystemService(service);
-        //实例化Notification
-        Notification n = new Notification();
-        //设置显示图标
-        //设置提示信息
-        String tickerText ="我的程序";
-        //显示时间
-        long when = System.currentTimeMillis();
+    public void AddNotification(Context mcontext,int ID1){
 
-        n.tickerText = tickerText;
-        n.when = when;
-        //显示在“正在进行中”
-        //  n.flags = Notification.FLAG_ONGOING_EVENT;
-        n.flags|=Notification.FLAG_AUTO_CANCEL; //自动终止
-        //实例化Intent
-//        Intent it = new Intent(mcontext,mcontext.getClass());
-        Intent it = new Intent(mcontext,mcontext.getClass());
-//        it.putExtra(KEY_COUNT, count);
-        /*********************
-         *获得PendingIntent
-         *FLAG_CANCEL_CURRENT:
-         *		如果当前系统中已经存在一个相同的PendingIntent对象，
-         *		那么就将先将已有的PendingIntent取消，然后重新生成一个PendingIntent对象。
-         *FLAG_NO_CREATE:
-         *		如果当前系统中不存在相同的PendingIntent对象，
-         *		系统将不会创建该PendingIntent对象而是直接返回null。
-         *FLAG_ONE_SHOT:
-         *		该PendingIntent只作用一次，
-         *		如果该PendingIntent对象已经触发过一次，
-         *		那么下次再获取该PendingIntent并且再触发时，
-         *		系统将会返回一个SendIntentException，在使用这个标志的时候一定要注意哦。
-         *FLAG_UPDATE_CURRENT:
-         *		如果系统中已存在该PendingIntent对象，
-         *		那么系统将保留该PendingIntent对象，
-         *		但是会使用新的Intent来更新之前PendingIntent中的Intent对象数据，
-         *		例如更新Intent中的Extras。这个非常有用，
-         *		例如之前提到的，我们需要在每次更新之后更新Intent中的Extras数据，
-         *		达到在不同时机传递给MainActivity不同的参数，实现不同的效果。
-         *********************/
+        // Use NotificationCompat.Builder to set up our notification.
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(mcontext);
 
-        PendingIntent pi = PendingIntent.getActivity(mcontext, 0, it, PendingIntent.FLAG_UPDATE_CURRENT);
+        //icon appears in device notification bar and right hand corner of notification
+//        builder.setSmallIcon(R.drawable.ic_stat_notification);
 
-        //设置事件信息，显示在拉开的里面
-        n.setLatestEventInfo(mcontext,"我的软件", "我的软件正在运行……", pi);
-        //发出通知
-        nm.notify(ID,n);
+        // This intent is fired when notification is clicked
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://javatechig.com/"));
+        PendingIntent pendingIntent = PendingIntent.getActivity(mcontext, 0, intent, 0);
+
+        // Set the intent that will fire when the user taps the notification.
+        builder.setContentIntent(pendingIntent);
+
+        // Large icon appears on the left of the notification
+//        builder.setLargeIcon(BitmapFactory.decodeResource(mcontext.getResources(), R.drawable.ic_launcher));
+
+        // Content title, which appears in large type at the top of the notification
+        builder.setContentTitle("Notifications Title");
+
+        // Content text, which appears in smaller text below the title
+        builder.setContentText("Your notification content here.");
+
+        // The subtext, which appears under the text on newer devices.
+        // This will show-up in the devices with Android 4.2 and above only
+        builder.setSubText("Tap to view documentation about notifications.");
+
+        NotificationManager notificationManager = (NotificationManager) mcontext.getSystemService(mcontext.NOTIFICATION_SERVICE);
+
+        // Will display the notification in the notification bar
+        notificationManager.notify(ID1, builder.build());
+        Log.i(TAG, "Finish");
     }
 
     //getting unique id for device
