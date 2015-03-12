@@ -1,6 +1,7 @@
 package com.example.blin.benlib;
 
 import android.content.Context;
+import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ArrayAdapter;
@@ -143,6 +144,15 @@ public class BenNetwork {
         return s1;
     }
 
+    public void toggleWiFi(Context mcontext,boolean status) {
+        WifiManager wifiManager = (WifiManager) mcontext
+                .getSystemService(Context.WIFI_SERVICE);
+        if (status == true && !wifiManager.isWifiEnabled()) {
+            wifiManager.setWifiEnabled(true);
+        } else if (status == false && wifiManager.isWifiEnabled()) {
+            wifiManager.setWifiEnabled(false);
+        }
+    }
 
 }
 

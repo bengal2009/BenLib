@@ -8,6 +8,8 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
@@ -20,6 +22,9 @@ import android.widget.TextSwitcher;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
+
+import java.util.ArrayList;
+import java.util.List;
 
 //http://javatechig.com/android/android-dialog-example/
 //http://javatechig.com/android/android-input-dialog-example
@@ -194,4 +199,21 @@ LayoutInflater inflater = getLayoutInflater();
         String id = Settings.Secure.getString(mcontext.getContentResolver(), Settings.Secure.ANDROID_ID);
         return id;
     }
+
+    private List<ApplicationInfo> checkForLaunchIntent(List<ApplicationInfo> list) {
+        ArrayList<ApplicationInfo> applist = new ArrayList<ApplicationInfo>();
+        PackageManager packageManager = null;
+        for (ApplicationInfo info : list) {
+            try {
+                if (null != packageManager.getLaunchIntentForPackage(info.packageName)) {
+                    applist.add(info);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return applist;
+    }
+
 }
