@@ -10,7 +10,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.Rect;
 import android.net.Uri;
+import android.os.Environment;
 import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
 import android.util.DisplayMetrics;
@@ -23,6 +26,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -145,10 +150,53 @@ LayoutInflater inflater = getLayoutInflater();
                 .getMetrics(metrics);
         int width = metrics.widthPixels;
         int height = metrics.heightPixels;
-        Log.i(TAG,"width:"+Integer.toString(width)+",Height:"+Integer.toString(height));
+        int DPI = metrics.densityDpi;
+        Log.i(TAG,"width:"+Integer.toString(width)+",Height:"+Integer.toString(height)+",DPI:"+Integer.toString(DPI));
 
     }
 
+    private void saveImagetoSDCard(Bitmap bitmap)
+    {
+
+        try
+        {
+            String file_path = Environment.getExternalStorageDirectory().getAbsolutePath();
+            File storagePath = new File(Environment.getExternalStorageDirectory() + "/MyCameraApp/");
+            File file = new File(storagePath, "Yudiz_krrish.png");
+
+            Log.d("TAG","File path after editing :"+file.getPath().toString());
+            FileOutputStream fOut = null;
+
+            fOut = new FileOutputStream(file);
+//            bit.compress(Bitmap.CompressFormat.PNG, 85, fOut);
+
+            fOut.flush();
+            fOut.close();
+//            btn_changeSettiong.setVisibility(View.VISIBLE);
+//            btn_saveImage.setVisibility(View.VISIBLE);
+
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+    }
+    public static Bitmap captureScreenshot(Activity activity) {
+        View view = activity.getWindow().getDecorView();
+        view.setDrawingCacheEnabled(true);
+        view.buildDrawingCache();
+        Bitmap bitmap = view.getDrawingCache();
+        Rect rect = new Rect();
+        activity.getWindow().getDecorView().getWindowVisibleDisplayFrame(rect);
+        int statusBarHeight = rect.top;
+        @SuppressWarnings("deprecation")
+        int width = activity.getWindowManager().getDefaultDisplay().getWidth();
+        @SuppressWarnings("deprecation")
+        int height = activity.getWindowManager().getDefaultDisplay().getHeight();
+        Bitmap bitmap2 = Bitmap.createBitmap(bitmap, 0, statusBarHeight, width, height - statusBarHeight);
+        view.destroyDrawingCache();
+        return bitmap2;
+    }
     public void ShareIntent(Context mcontext) {
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);

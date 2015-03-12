@@ -7,6 +7,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Environment;
+import android.util.Log;
 
 import java.io.File;
 import java.io.IOException;
@@ -37,8 +38,16 @@ public class BenSqllite {
         }
 
         public DBManager open() throws SQLException {
-            dbHelper = new DatabaseHelper(context);
-            database = dbHelper.getWritableDatabase();
+            try {
+                dbHelper = new DatabaseHelper(context, Environment.getExternalStorageDirectory()+File.separator+
+                "JAVATECHIG_TODOS.DB", "TODOS");
+                database = dbHelper.getWritableDatabase();
+            }
+            catch (Exception e)
+            {
+               Log.i("BenSqllit",e.toString());
+                return null;
+            }
             return this;
         }
 
@@ -80,31 +89,41 @@ public class BenSqllite {
     public static class DatabaseHelper extends SQLiteOpenHelper {
 
         // Table Name
-        public static final String TABLE_NAME = "TODOS";
+        public  static String TABLE_NAME;
+        public  static String DB_NAME;
 
         // Table columns
         public static final String _ID = "_id";
         public static final String TODO_SUBJECT = "subject";
         public static final String TODO_DESC = "description";
-
         // Database Information
-        static final String DB_NAME = "JAVATECHIG_TODOS.DB";
+//        static final String DB_NAME = "JAVATECHIG_TODOS.DB";
 
         // database version
         static final int DB_VERSION = 1;
 
         // Creating table query
-        private static final String CREATE_TABLE = "create table " + TABLE_NAME + "(" + _ID
-                + " INTEGER PRIMARY KEY AUTOINCREMENT, " + TODO_SUBJECT + " TEXT NOT NULL, " + TODO_DESC + " TEXT);";
 
-        public DatabaseHelper(Context context) {
-            super(context, DB_NAME, null, DB_VERSION);
+
+        public DatabaseHelper(Context context,String DB_NAME1,String TABLE_NAME1) {
+            super(context, DB_NAME1, null, DB_VERSION);
+            this.TABLE_NAME= TABLE_NAME1;
+            this.DB_NAME=DB_NAME1;
+
         }
 
         @Override
         public void onCreate(SQLiteDatabase db) {
-            db.execSQL(CREATE_TABLE);
+            Log.i("SQL","Table name is "+TABLE_NAME);
+            if(TABLE_NAME!=null) {
+                String CREATE_TABLE = "create table " + TABLE_NAME + "(" + _ID
+                        + " INTEGER PRIMARY KEY AUTOINCREMENT, " + TODO_SUBJECT + " TEXT NOT NULL, " + TODO_DESC + " TEXT);";
+                Log.i("SQLHELP", CREATE_TABLE);
+
+                db.execSQL(CREATE_TABLE);
+            }
         }
+
 
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {

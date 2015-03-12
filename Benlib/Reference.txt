@@ -1,3 +1,4 @@
+
 https://github.com/TwistedEquations
 git config core.ignorecase false
 git add -A
@@ -11,4 +12,7 @@ git reset --hard HEAD^     # use --hard if you don't care about keeping the chan
 
 How to Start an Application at Device Bootup in Android
 http://javatechig.com/android/how-to-start-an-application-at-device-bootup-in-android/
-
+AlarmManager - 於指定時刻執行特定工作
+http://oldgrayduck.blogspot.hk/2012/10/androidalarmmanager.html
+https://developer.android.com/training/scheduling/alarms.html
+Nexus5 800X480 MDPI
