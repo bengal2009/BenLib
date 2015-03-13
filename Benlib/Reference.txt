@@ -12,7 +12,12 @@ git reset --hard HEAD^     # use --hard if you don't care about keeping the chan
 
 How to Start an Application at Device Bootup in Android
 http://javatechig.com/android/how-to-start-an-application-at-device-bootup-in-android/
+
 AlarmManager - 於指定時刻執行特定工作
 http://oldgrayduck.blogspot.hk/2012/10/androidalarmmanager.html
 https://developer.android.com/training/scheduling/alarms.html
-Nexus5 800X480 MDPI
+Nexus5 800X480 MDP
+
+SMS
+http://pulse7.net/android/read-sms-message-inbox-sent-draft-android/
+http://www.android100.org/html/201304/16/2199.html
