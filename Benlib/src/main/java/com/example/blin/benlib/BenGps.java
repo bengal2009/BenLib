@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Address;
+import android.location.Criteria;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
@@ -29,12 +30,12 @@ public class BenGps {
         private final Context mContext;
 
         // if GPS is enabled
-        boolean isGPSEnabled = false;
+        public boolean isGPSEnabled = false;
         // if Network is enabled
-        boolean isNetworkEnabled = false;
+        public boolean isNetworkEnabled = false;
         // if Location co-ordinates are available using GPS or Network
         public boolean isLocationAvailable = false;
-
+        private String bestProvider = LocationManager.GPS_PROVIDER;
         // Location and co-ordinates coordinates
         Location mLocation;
         double mLatitude;
@@ -66,17 +67,38 @@ public class BenGps {
                 // Getting GPS status
                 isGPSEnabled = mLocationManager
                         .isProviderEnabled(LocationManager.GPS_PROVIDER);
+                /*LocationManager status = (LocationManager) (this.getSystemService(Context.LOCATION_SERVICE));
+                if (status.isProviderEnabled(LocationManager.GPS_PROVIDER) || status.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+                    //如果GPS或網路定位開啟，呼叫locationServiceInitial()更新位置
+                    locationServiceInitial();*/
+
+                /*private LocationManager lms;
+                private String bestProvider = LocationManager.GPS_PROVIDER;	//最佳資訊提供者
+            private void locationServiceInitial() {
+                lms = (LocationManager) getSystemService(LOCATION_SERVICE);	//取得系統定位服務
+                Criteria criteria = new Criteria();	//資訊提供者選取標準
+                bestProvider = lms.getBestProvider(criteria, true);	//選擇精準度最高的提供者
+                Location location = lms.getLastKnownLocation(bestProvider);
+                getLocation(location);*/
 
                 // If GPS enabled, get latitude/longitude using GPS Services
                 if (isGPSEnabled) {
+//                    Log.i("GPSNETWORK","Standard GPS Enable");
                     mLocationManager.requestLocationUpdates(
                             LocationManager.GPS_PROVIDER, TIME, DISTANCE, this);
                     if (mLocationManager != null) {
+//                        Log.i("GPSNETWORK","mLocationManager != null");
+                        Criteria criteria = new Criteria();	//資訊提供者選取標準
+                        bestProvider = mLocationManager.getBestProvider(criteria, true);
+                       /* mLocation = mLocationManager
+                                .getLastKnownLocation(LocationManager.GPS_PROVIDER);*/
                         mLocation = mLocationManager
-                                .getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                                .getLastKnownLocation(bestProvider);
                         if (mLocation != null) {
+
                             mLatitude = mLocation.getLatitude();
                             mLongitude = mLocation.getLongitude();
+//                            Log.i("GPSNETWORK"," mLatitude:"+ mLatitude);
                             isLocationAvailable = true; // setting a flag that
                             // location is available
                             return mLocation;
@@ -87,15 +109,18 @@ public class BenGps {
                 // If we are reaching this part, it means GPS was not able to fetch
                 // any location
                 // Getting network status
+                Criteria criteria = new Criteria();	//資訊提供者選取標準
+                bestProvider = mLocationManager.getBestProvider(criteria, true);
+                /*isNetworkEnabled = mLocationManager
+                        .isProviderEnabled(LocationManager.NETWORK_PROVIDER);*/
                 isNetworkEnabled = mLocationManager
-                        .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-
+                        .isProviderEnabled(bestProvider);
                 if (isNetworkEnabled) {
                     mLocationManager.requestLocationUpdates(
                             LocationManager.NETWORK_PROVIDER, TIME, DISTANCE, this);
                     if (mLocationManager != null) {
                         mLocation = mLocationManager
-                                .getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                                .getLastKnownLocation(bestProvider);
                         if (mLocation != null) {
                             mLatitude = mLocation.getLatitude();
                             mLongitude = mLocation.getLongitude();
