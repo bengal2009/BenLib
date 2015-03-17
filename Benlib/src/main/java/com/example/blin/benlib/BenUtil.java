@@ -3,6 +3,7 @@ package com.example.blin.benlib;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -12,10 +13,8 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
-import android.net.Uri;
 import android.os.Environment;
 import android.provider.Settings;
-import android.support.v4.app.NotificationCompat;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
@@ -33,6 +32,8 @@ import java.util.List;
 
 //http://javatechig.com/android/android-dialog-example/
 //http://javatechig.com/android/android-input-dialog-example
+//http://www.tutorialspoint.com/android/android_notifications.htm
+//http://www.tutorialspoint.com/android/android_push_notification.htm
 /**
  * Created by Lin on 2015/3/7.
  */
@@ -206,38 +207,19 @@ LayoutInflater inflater = getLayoutInflater();
     }
 
     //添加通知到顶部任务栏
-    public void AddNotification(Context mcontext,int ID1){
-
-        // Use NotificationCompat.Builder to set up our notification.
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(mcontext);
-
-        //icon appears in device notification bar and right hand corner of notification
-//        builder.setSmallIcon(R.drawable.ic_stat_notification);
-
-        // This intent is fired when notification is clicked
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://javatechig.com/"));
-        PendingIntent pendingIntent = PendingIntent.getActivity(mcontext, 0, intent, 0);
-
-        // Set the intent that will fire when the user taps the notification.
-        builder.setContentIntent(pendingIntent);
-
-        // Large icon appears on the left of the notification
-//        builder.setLargeIcon(BitmapFactory.decodeResource(mcontext.getResources(), R.drawable.ic_launcher));
-
-        // Content title, which appears in large type at the top of the notification
-        builder.setContentTitle("Notifications Title");
-
-        // Content text, which appears in smaller text below the title
-        builder.setContentText("Your notification content here.");
-
-        // The subtext, which appears under the text on newer devices.
-        // This will show-up in the devices with Android 4.2 and above only
-        builder.setSubText("Tap to view documentation about notifications.");
-
-        NotificationManager notificationManager = (NotificationManager) mcontext.getSystemService(mcontext.NOTIFICATION_SERVICE);
-
-        // Will display the notification in the notification bar
-        notificationManager.notify(ID1, builder.build());
+    public void AddNotification(Context mcontext,
+                                String title,
+                                String subject,
+                                String body,
+                                int ID1){
+        NotificationManager NM;
+        NM=(NotificationManager) mcontext.getSystemService(Context.NOTIFICATION_SERVICE);
+        Notification notify=new Notification(android.R.drawable.
+                stat_notify_more,title,System.currentTimeMillis());
+        PendingIntent pending=PendingIntent.getActivity(
+                mcontext,0, new Intent(),0);
+        notify.setLatestEventInfo(mcontext,subject,body,pending);
+        NM.notify(ID1, notify);
         Log.i(TAG, "Finish");
     }
 

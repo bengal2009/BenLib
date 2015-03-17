@@ -14,6 +14,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.provider.Settings;
+import android.util.Log;
 
 import java.io.IOException;
 import java.util.List;
@@ -42,9 +43,9 @@ public class BenGps {
         double mLongitude;
 
         // Minimum time fluctuation for next update (in milliseconds)
-        private static final long TIME = 30000;
+        private static final long TIME = 20000;
         // Minimum distance fluctuation for next update (in meters)
-        private static final long DISTANCE = 20;
+        private static final long DISTANCE = 1;
 
         // Declaring a Location Manager
         protected LocationManager mLocationManager;
@@ -115,12 +116,18 @@ public class BenGps {
                         .isProviderEnabled(LocationManager.NETWORK_PROVIDER);*/
                 isNetworkEnabled = mLocationManager
                         .isProviderEnabled(bestProvider);
+
                 if (isNetworkEnabled) {
+                    Log.i("GPSNETWORK", "Network Check!");
                     mLocationManager.requestLocationUpdates(
                             LocationManager.NETWORK_PROVIDER, TIME, DISTANCE, this);
                     if (mLocationManager != null) {
-                        mLocation = mLocationManager
-                                .getLastKnownLocation(bestProvider);
+                        mLocation = mLocationManager.getLastKnownLocation( LocationManager.NETWORK_PROVIDER);
+                       /* mLocation = mLocationManager.requestLocationUpdates(
+                                LocationManager.GPS_PROVIDER,
+                                MIN_TIME_BW_UPDATES,
+                                MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
+*/
                         if (mLocation != null) {
                             mLatitude = mLocation.getLatitude();
                             mLongitude = mLocation.getLongitude();
